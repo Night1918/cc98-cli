@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 )
 
@@ -30,4 +31,11 @@ func NewCC98(username, password string) (*CC98, error) {
 		password: password,
 		client:   &http.Client{},
 	}, nil
+}
+
+func (c *CC98) Token() (*Token, error) {
+	if c == nil || c.token == nil {
+		return nil, errors.New("尚未登录，token 不可用")
+	}
+	return c.token, nil
 }
